@@ -61,3 +61,29 @@ body {
   color: white;
   margin-right: 10px;
 }
+
+.invalid-feedback {
+  display: block !important;
+  margin-top: 0.25rem !important;
+  position: relative !important;
+}
+
+.disabled #pagg-item {
+  background-color: #a59595 !important;
+}
+
+.edit-btn,
+.delete-btn,
+.sort-btn {
+  cursor: pointer;
+}
+
+#formControlLg {
+  color: wheat;
+}
+
+.logout {
+  font-size: large;
+  font-weight: bold;
+  border: 1px solid wheat;
+}

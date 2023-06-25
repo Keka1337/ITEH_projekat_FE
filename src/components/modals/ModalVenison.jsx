@@ -4,11 +4,28 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
-function ModalVenison() {
+function ModalVenison({ handleSave }) {
   const [show, setShow] = useState(false);
+  const [error, setError] = useState(false);
+  const [name, setName] = useState("");
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setError(false);
+    setName("");
+    setShow(true);
+  };
+  const save = () => {
+    setError(false);
+    if (!name.length) {
+      setError(true);
+    } else {
+      handleSave({
+        name,
+      });
+      setShow(false);
+    }
+  };
 
   return (
     <>
@@ -26,52 +43,22 @@ function ModalVenison() {
               <Row>
                 <Col>
                   <Form.Label>Name</Form.Label>
-                  <Form.Control type="text" />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Label>Latin name</Form.Label>
-                  <Form.Control type="text" />
-                </Col>
-                <Col>
-                  <Form.Label>Gender</Form.Label>
-                  <Row>
-                    <Col>
-                      <Form.Check label="Male" type="radio" />
-                    </Col>
-                    <Col>
-                      <Form.Check label="Female" inline type="radio" />
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Label>Maximum number</Form.Label>
-                  <Form.Control type="text" autoFocus />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Label>From date</Form.Label>
-                  <Form.Control type="text" autoFocus />
-                </Col>
-                <Col>
-                  <Form.Label>To date</Form.Label>
-                  <Form.Control type="text" autoFocus />
+                  <Form.Control
+                    type="text"
+                    onChange={(event) => setName(event.target.value)}
+                  />
+                  {error && (
+                    <Form.Control.Feedback type="invalid">
+                      Please enter venison name.
+                    </Form.Control.Feedback>
+                  )}
                 </Col>
               </Row>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            variant="primary"
-            type="submit"
-            id="btnSave"
-            onClick={handleClose}
-          >
+          <Button variant="primary" type="submit" id="btnSave" onClick={save}>
             Save
           </Button>
         </Modal.Footer>

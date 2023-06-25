@@ -1,30 +1,29 @@
 import React from "react";
 import { MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
+import { BsSortAlphaDown } from "react-icons/bs";
 
-function TableVenison() {
+function TableVenison({ data, handleSort }) {
   return (
     <MDBTable>
       <MDBTableHead dark>
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Latin name</th>
-          <th scope="col">Gender</th>
-          <th scope="col">Maximum number</th>
-          <th scope="col">From date</th>
-          <th scope="col">To date</th>
-          <th scope="col">Action</th>
+          <th scope="col">
+            Name{" "}
+            <BsSortAlphaDown
+              className="sort-btn"
+              onClick={() => handleSort("name")}
+            />
+          </th>
         </tr>
       </MDBTableHead>
       <MDBTableBody>
-        <tr>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-        </tr>
+        {data.map((vension) => {
+          return (
+            <tr key={vension.id}>
+              <td>{vension.name}</td>
+            </tr>
+          );
+        })}
       </MDBTableBody>
     </MDBTable>
   );
