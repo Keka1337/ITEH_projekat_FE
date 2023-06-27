@@ -15,12 +15,10 @@ function ModalTeam({ handleSave, team }) {
     if (!teamName.length) {
       setError(true);
     } else {
-      handleSave(
-        {
-          name: teamName,
-        },
-        id
-      );
+      handleSave({
+        id,
+        name: teamName,
+      });
       setShow(false);
     }
   };

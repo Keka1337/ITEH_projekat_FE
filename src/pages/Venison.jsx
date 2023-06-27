@@ -6,12 +6,17 @@ import ModalVenison from "../components/modals/ModalVenison";
 import { Col, Row } from "react-bootstrap";
 import PaginationComponent from "../components/PaginationComponent";
 import { create, getAllPagination } from "../api/venison";
+import Alert from "react-bootstrap/Alert";
+
 const Venison = ({}) => {
   const [vensions, setVensions] = useState([]);
   const [page, setPage] = useState(0);
   const [maxNumberOfPage, setMaxNumberOfPage] = useState(0);
   const [filter, setFilter] = useState("");
   const [sortBy, setSortBy] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const getAllVensions = async () => {
     const res = await getAllPagination(page, filter, sortBy);
@@ -24,11 +29,17 @@ const Venison = ({}) => {
   }, [page, filter, sortBy]);
 
   const save = async (data) => {
-    const res = await create(data);
-    if (vensions.length < 5) {
-      let vensionsOld = JSON.parse(JSON.stringify(vensions));
-      vensionsOld.push(res);
-      setVensions(vensionsOld);
+    try {
+      const res = await create(data);
+      setSuccessMessage("Successfully created venison!");
+
+      if (vensions.length < 5) {
+        let vensionsOld = JSON.parse(JSON.stringify(vensions));
+        vensionsOld.push(res);
+        setVensions(vensionsOld);
+      }
+    } catch (e) {
+      setErrorMessage("Venison cannot be created!");
     }
   };
 
@@ -65,6 +76,21 @@ const Venison = ({}) => {
           page={page}
         />
       </Row>
+
+      {successMessage && (
+        <Alert
+          variant="success"
+          onClose={() => setSuccessMessage("")}
+          dismissible
+        >
+          <Alert.Heading>{successMessage}</Alert.Heading>
+        </Alert>
+      )}
+      {errorMessage && (
+        <Alert variant="danger" onClose={() => setErrorMessage("")} dismissible>
+          <Alert.Heading>{errorMessage}</Alert.Heading>
+        </Alert>
+      )}
     </div>
   );
 };

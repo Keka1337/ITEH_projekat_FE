@@ -23,7 +23,7 @@ body {
 .input-group {
   flex-wrap: nowrap;
   width: 250px !important;
-  margin-top: 200px;
+  margin-top: 150px;
   margin-left: 100px;
 }
 
@@ -34,7 +34,7 @@ body {
 
 #btn-new {
   margin-left: 150px !important;
-  margin-top: 200px !important;
+  margin-top: 150px !important;
   width: 180px;
   background-color: #474242;
 }
@@ -86,4 +86,22 @@ body {
   font-size: large;
   font-weight: bold;
   border: 1px solid wheat;
+  border-radius: 10%;
+}
+
+.alert {
+  position: absolute !important;
+  top: 70px !important;
+  right: 100px !important;
+}
+
+.navbar-nav {
+  margin-top: 5px;
+}
+
+.par-home {
+  color: white;
+  margin-top: 50px;
+  margin-left: 50px;
+  width: 700px;
 }

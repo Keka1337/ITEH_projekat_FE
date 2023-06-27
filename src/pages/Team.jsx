@@ -6,6 +6,8 @@ import { Row, Col } from "react-bootstrap";
 import ModalTeam from "../components/modals/ModalTeam";
 import PaginationComponent from "../components/PaginationComponent";
 import { create, getAllPagination, getTeam, edit } from "../api/team";
+import Alert from "react-bootstrap/Alert";
+
 const Team = ({}) => {
   const [teams, setTeams] = useState([]);
   const [page, setPage] = useState(0);
@@ -14,6 +16,9 @@ const Team = ({}) => {
   const [userRole, setUserRole] = useState("");
   const [filter, setFilter] = useState("");
   const [sortBy, setSortBy] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const getAllTeams = async () => {
     const res = await getAllPagination(page, filter, sortBy);
@@ -29,25 +34,36 @@ const Team = ({}) => {
     getAllTeams();
   }, [page, filter, sortBy]);
 
-  const save = async (data, id) => {
-    if (id) {
-      const res = await edit(id, data);
+  const save = async (data) => {
+    if (data.id) {
+      try {
+        const res = await edit(data);
+        setSuccessMessage("Successfully updated team!");
 
-      let teamsOld = JSON.parse(JSON.stringify(teams));
-      teamsOld = teamsOld.map((teamOld) => {
-        if (teamOld.id === id) {
-          return res;
-        }
-
-        return teamOld;
-      });
-      setTeams(teamsOld);
-    } else {
-      const res = await create(data);
-      if (teams.length < 5) {
         let teamsOld = JSON.parse(JSON.stringify(teams));
-        teamsOld.push(res);
+        teamsOld = teamsOld.map((teamOld) => {
+          if (teamOld.id === data.id) {
+            return res;
+          }
+
+          return teamOld;
+        });
         setTeams(teamsOld);
+      } catch (e) {
+        setErrorMessage("Team cannot be updated!");
+      }
+    } else {
+      try {
+        const res = await create(data);
+        setSuccessMessage("Successfully created team!");
+
+        if (teams.length < 5) {
+          let teamsOld = JSON.parse(JSON.stringify(teams));
+          teamsOld.push(res);
+          setTeams(teamsOld);
+        }
+      } catch (e) {
+        setErrorMessage("Team cannot be created!");
       }
     }
   };
@@ -95,6 +111,20 @@ const Team = ({}) => {
           page={page}
         />
       </Row>
+      {successMessage && (
+        <Alert
+          variant="success"
+          onClose={() => setSuccessMessage("")}
+          dismissible
+        >
+          <Alert.Heading>{successMessage}</Alert.Heading>
+        </Alert>
+      )}
+      {errorMessage && (
+        <Alert variant="danger" onClose={() => setErrorMessage("")} dismissible>
+          <Alert.Heading>{errorMessage}</Alert.Heading>
+        </Alert>
+      )}
     </div>
   );
 };

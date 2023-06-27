@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import {
   MDBBtn,
   MDBContainer,
@@ -11,8 +10,38 @@ import {
   MDBIcon,
 } from "mdb-react-ui-kit";
 import "../index.css";
+import Form from "react-bootstrap/Form";
 
-function Login() {
+function Login({ handleLogin, error }) {
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = () => {
+    setUsernameError(false);
+    setPasswordError(false);
+
+    let error = false;
+    if (!username.length) {
+      setUsernameError(true);
+      error = true;
+    }
+
+    if (!password.length) {
+      setPasswordError(true);
+      error = true;
+    }
+
+    if (!error) {
+      handleLogin({
+        username,
+        password,
+      });
+    }
+  };
+
   return (
     <MDBContainer fluid className="loginPage">
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
@@ -30,11 +59,17 @@ function Login() {
               <MDBInput
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-white"
-                label="Email address"
+                label="Username"
                 id="formControlLg"
-                type="email"
+                type="text"
                 size="lg"
+                onChange={(event) => setUsername(event.target.value)}
               />
+              {usernameError && (
+                <Form.Control.Feedback type="invalid">
+                  Please enter username.
+                </Form.Control.Feedback>
+              )}
               <MDBInput
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-white"
@@ -42,12 +77,28 @@ function Login() {
                 id="formControlLg"
                 type="password"
                 size="lg"
+                onChange={(event) => setPassword(event.target.value)}
               />
+              {passwordError && (
+                <Form.Control.Feedback type="invalid">
+                  Please enter team password.
+                </Form.Control.Feedback>
+              )}
 
-              <MDBBtn outline className="mx-2 px-5" color="white" size="lg">
-                <Link to="/home" className="login-link">
-                  Login
-                </Link>
+              {error && (
+                <Form.Control.Feedback type="invalid">
+                  Something went worng.
+                </Form.Control.Feedback>
+              )}
+
+              <MDBBtn
+                outline
+                className="mx-2 px-5"
+                color="white"
+                size="lg"
+                onClick={login}
+              >
+                <span>Login</span>
               </MDBBtn>
             </MDBCardBody>
           </MDBCard>

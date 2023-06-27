@@ -26,8 +26,8 @@ export const create = async (body) => {
   return res.data;
 };
 
-export const edit = async (id, body) => {
-  const res = await api.put(`/team/edit/${id}`, body);
+export const edit = async (body) => {
+  const res = await api.patch("/team/edit", body);
 
   return res.data;
 };

@@ -169,6 +169,7 @@ function ModalHunter({ handleSave, teams, hunter }) {
                     type="text"
                     autoFocus
                     value={idNumber}
+                    disabled={id !== null}
                     onChange={(event) => setIdNumber(event.target.value)}
                   />
                   {idNumberError && (
@@ -199,6 +200,7 @@ function ModalHunter({ handleSave, teams, hunter }) {
                     type="text"
                     autoFocus
                     value={licenceNumber}
+                    disabled={id !== null}
                     onChange={(event) => setLicenceNumber(event.target.value)}
                   />
                   {licenceNumberError && (

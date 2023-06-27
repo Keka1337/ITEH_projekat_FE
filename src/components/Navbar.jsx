@@ -10,11 +10,10 @@ import {
   MDBNavbarBrand,
   MDBCollapse,
 } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 
-function NavBar() {
-  const [showNavColor, setShowNavColor] = useState(false);
+function NavBar({ logout, currentTemperature }) {
   const [showNavColorSecond, setShowNavColorSecond] = useState(false);
-  const [showNavColorThird, setShowNavColorThird] = useState(false);
 
   return (
     <MDBNavbar expand="lg" dark bgColor="dark">
@@ -38,16 +37,34 @@ function NavBar() {
               </MDBNavbarLink>
             </MDBNavbarItem> */}
             <MDBNavbarItem>
-              <MDBNavbarLink href="/hunter">Hunter</MDBNavbarLink>
+              <Link className="nav-link" to="/hunter">
+                Hunter
+              </Link>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href="/team">Team</MDBNavbarLink>
+              <Link className="nav-link" to="/team">
+                Team
+              </Link>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href="/venison">Venison</MDBNavbarLink>
+              <Link className="nav-link" to="/venison">
+                Venison
+              </Link>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href="/appointment">Appointment</MDBNavbarLink>
+              <Link className="nav-link" to="/appointment">
+                Appointment
+              </Link>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem className="offset-md-6">
+              <MDBNavbarLink href="#">{currentTemperature}°C</MDBNavbarLink>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem className="offset-md-1 logout">
+              <MDBNavbarLink href="#" onClick={logout}>
+                LOGOUT
+              </MDBNavbarLink>
             </MDBNavbarItem>
           </MDBNavbarNav>
         </MDBCollapse>
